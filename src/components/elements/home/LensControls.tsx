@@ -19,7 +19,7 @@ export const LensControls = ({ sprites, controlRefs, getControlProps }: LensCont
     {sprites.map((sprite, index) =>
       sprite.label ? (
         <div
-          key={sprite.src}
+          key={`${sprite.src}:${sprite.x}:${sprite.y}`}
           ref={element => {
             controlRefs.current[index] = element
           }}

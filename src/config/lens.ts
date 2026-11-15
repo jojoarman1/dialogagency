@@ -32,8 +32,15 @@ export const LENS_ENTRANCE = {
 }
 
 // A cut-out on its way in travels this share of its own size (unless it sets its own), grows
-// from `scale` and is fully opaque after `fade` of the way, so none of it lingers once it's out
-export const LENS_SPRITE_ENTRANCE = { travel: 0.5, scale: 0.92, fade: 0.4 }
+// from `scale` and is fully opaque after `fade` of the way, so none of it lingers once it's out.
+// One that comes out of another bulges by `emergeBulge` more at the start
+export const LENS_SPRITE_ENTRANCE = { travel: 0.5, scale: 0.92, fade: 0.4, emergeBulge: 1.2 }
+
+// The cut-outs' own lens bulge at rest, milder than the paper's entrance
+export const LENS_SPRITE_BULGE = 0.07
+
+// How far the paper is pushed along the mouse's flow, in paper sizes per unit of flow
+export const LENS_FLOW_STRENGTH = 0.04
 
 // The cut-outs leave in reverse order, their delays shortened by staggerScale to fit the exit
 // Interactive cut-outs: hovered ones lift a little, pressed buttons squeeze, and a dragged one

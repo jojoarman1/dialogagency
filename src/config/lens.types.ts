@@ -23,4 +23,7 @@ export interface LensSprite {
   label?: string
   // Squeezes and springs back with a click when pressed, like a real button
   isPressable?: boolean
+  // The id of the cut-out this one comes out of: it starts in that one's place and size, bulging
+  // hard, and moves out to its own while straightening (instead of coming in from its side)
+  emergeFrom?: string
 }

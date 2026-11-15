@@ -33,7 +33,7 @@ export const LensCollage = ({ art, isActive }: LensCollageProps) => {
         <Image src={art.background} alt='' fill sizes={LENS_IMAGE_SIZES} className='object-cover' />
         {art.sprites?.map(sprite => (
           <Image
-            key={sprite.src}
+            key={`${sprite.src}:${sprite.x}:${sprite.y}`}
             src={sprite.src}
             alt=''
             width={0}

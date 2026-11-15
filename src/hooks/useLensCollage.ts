@@ -1,7 +1,10 @@
 import {
+  target,
+  useEventListener,
   useIntersectionObserver,
   useIsomorphicLayoutEffect,
-  useMediaQuery
+  useMediaQuery,
+  usePreferredReducedMotion
 } from '@siberiacancode/reactuse'
 import { useEffect, useRef, useState } from 'react'
 
@@ -19,6 +22,7 @@ import { useLensParallax } from './useLensParallax'
 // Share of the collage on screen before it comes in
 const IN_VIEW_THRESHOLD = 0.35
 const PRELOAD_MARGIN = '300px 0px'
+const WINDOW_TARGET = target(() => window)
 // A stable empty list, so the entrance's dependencies don't change on every render
 const NO_SPRITES: readonly LensSprite[] = []
 
@@ -86,7 +90,8 @@ export const useLensCollage = ({ art, isActive }: UseLensCollageParams) => {
         const collage = createLensCollage(canvas, {
           background,
           sprites: sprites.map((sprite, index) => ({ sprite, image: spriteImages[index] })),
-          isSheet: !!art.isSheet
+          isSheet: !!art.isSheet,
+          hasFlow: !!art.hasFlow
         })
         if (!collage) {
           setIsSupported(false)
@@ -121,6 +126,15 @@ export const useLensCollage = ({ art, isActive }: UseLensCollageParams) => {
   useLensEntrance({ viewRef, redraw, isPlaying: isShown, sprites })
   useLensParallax({ viewRef, redraw, isEnabled: isShown })
   const interaction = useLensInteraction({ viewRef, sprites, redraw })
+
+  // The paper's liquid smear after the mouse
+  const reduceMotion = usePreferredReducedMotion() === 'reduce'
+  useEventListener(
+    WINDOW_TARGET,
+    'pointermove',
+    (event: PointerEvent) => collageRef.current?.stir(event.clientX, event.clientY),
+    { passive: true, enabled: isShown && isFinePointer && !reduceMotion && !!art.hasFlow }
+  )
 
   // The controls mount at their origin; put them on their cut-outs at once
   useIsomorphicLayoutEffect(() => {

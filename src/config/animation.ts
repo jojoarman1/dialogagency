@@ -25,3 +25,7 @@ export const CHAT_OPTIONS_REVEAL = { duration: 0.35, ease: 'power1.out', stagger
 export const CHAT_THANKS = { duration: 0.35, ease: 'power1.out', hold: 2 }
 // The chat button's label rising from under its line as the button comes back
 export const CHAT_LABEL_RISE = { duration: 0.7, ease: 'power3.out' }
+
+// Project photos scroll inside their covers: a photo is this much taller than its cover and
+// travels that extra while the cover crosses the screen
+export const COVER_SCROLL_OVERSCAN = 0.16

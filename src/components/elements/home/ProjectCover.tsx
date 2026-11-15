@@ -3,11 +3,17 @@
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
 
+import { COVER_SCROLL_OVERSCAN } from '@/config/animation'
 import { COVER_ASPECT_RATIO, type Project, REEL_WIDTH_SHARE } from '@/config/projects'
+import { useCoverScroll } from '@/hooks/useCoverScroll'
 import { getReelDropPercent } from '@/lib/projectReel'
 
 // The cover's share of the viewport: full width on phones, 875 of the 1920 artboard otherwise
 const COVER_SIZES = '(width < 1024px) 100vw, 52vw'
+const PHOTO_STYLE = {
+  top: `${(-COVER_SCROLL_OVERSCAN / 2) * 100}%`,
+  height: `${(1 + COVER_SCROLL_OVERSCAN) * 100}%`
+}
 
 // The reel box's inline style, with the drop distance as a CSS variable for .project-reel
 type ReelStyle = CSSProperties & { '--reel-drop': string }
@@ -17,6 +23,7 @@ interface ProjectCoverProps {
 }
 
 export const ProjectCover = ({ project }: ProjectCoverProps) => {
+  const coverScroll = useCoverScroll()
   const reelStyle: ReelStyle = {
     width: `${REEL_WIDTH_SHARE * 100}%`,
     aspectRatio: project.reel.aspectRatio,
@@ -25,16 +32,20 @@ export const ProjectCover = ({ project }: ProjectCoverProps) => {
 
   return (
     <div
+      ref={coverScroll.refs.coverRef}
       className='project-cover relative overflow-hidden rounded-sm bg-foreground/10'
       style={{ aspectRatio: COVER_ASPECT_RATIO }}
     >
-      <Image
-        src={project.cover}
-        alt={project.title}
-        fill
-        sizes={COVER_SIZES}
-        className='object-cover'
-      />
+      {/* Taller than the cover by the overscan, centred; useCoverScroll moves it as the page scrolls */}
+      <div data-cover-photo className='absolute inset-x-0' style={PHOTO_STYLE}>
+        <Image
+          src={project.cover}
+          alt={project.title}
+          fill
+          sizes={COVER_SIZES}
+          className='object-cover'
+        />
+      </div>
       {!!project.logo && (
         // Before the dimming and the reel, which cover it. Turned white and blended as difference, so a logo of any colour reads
         // on both light and dark parts of the photo. A .svg src is served unoptimised

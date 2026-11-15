@@ -54,6 +54,17 @@ export const uploadTexture = (
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source)
 }
 
+// An empty texture to draw into, for effects that feed their last frame back in
+export const createRenderTarget = (gl: WebGLRenderingContext, width: number, height: number) => {
+  const texture = createTexture(gl)
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null)
+  const framebuffer = gl.createFramebuffer()
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer)
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+  return { texture, framebuffer }
+}
+
 // Returns null when WebGL isn't available, so the caller can fall back to plain markup
 export const createQuadProgram = <Name extends string>(
   canvas: HTMLCanvasElement,

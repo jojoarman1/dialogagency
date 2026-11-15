@@ -1,8 +1,7 @@
+import { DEVELOPER_SPRITES } from './developer.sprites'
 import { MEETING_SPRITES } from './meeting.sprites'
-import type { Service, ServiceArt } from './services.types'
+import type { Service } from './services.types'
 import { WEBSITE_SPRITES } from './website.sprites'
-
-const PAPER_SHEET: ServiceArt = { background: '/services/paper.webp', isSheet: true }
 
 export const SERVICES = [
   {
@@ -30,13 +29,22 @@ export const SERVICES = [
     title: 'Стратегия развития',
     art: { background: '/services/growth-strategy/table.webp', sprites: MEETING_SPRITES }
   },
-  { id: 'identity', title: 'Айдентика', art: PAPER_SHEET },
+  // A sheet of well-known logos cut to the papers' 3:4, smearing after the mouse
+  {
+    id: 'identity',
+    title: 'Айдентика',
+    art: { background: '/services/identity/logos.webp', hasFlow: true }
+  },
   {
     id: 'web-design',
     title: 'Дизайн сайта',
     art: { background: '/services/web-design/page.webp', sprites: WEBSITE_SPRITES }
   },
-  { id: 'web-development', title: 'Разработка сайта', art: PAPER_SHEET }
+  {
+    id: 'web-development',
+    title: 'Разработка сайта',
+    art: { background: '/services/web-development/paper.webp', sprites: DEVELOPER_SPRITES }
+  }
 ] as const satisfies readonly Service[]
 
 export type ServiceId = (typeof SERVICES)[number]['id']
