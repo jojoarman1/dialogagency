@@ -10,6 +10,8 @@
   --accent: #176308;
   --signal: #ff4a1c;
   --silver: #b2b2b2;
+  /* A design tool's selection blue, for the frames on the "Дизайн сайта" wireframe */
+  --frame: #0d99ff;
 }
 
 @theme inline {
@@ -21,6 +23,7 @@
   --color-accent: var(--accent);
   --color-signal: var(--signal);
   --color-silver: var(--silver);
+  --color-frame: var(--frame);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
 }

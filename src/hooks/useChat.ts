@@ -9,31 +9,18 @@ import gsap from 'gsap'
 import { useRef } from 'react'
 
 import { CHAT_GOALS, type MetrikaGoal } from '@/config/analytics'
-import {
-  PANEL_CONTENT_DURATION,
-  PANEL_CONTENT_EASE,
-  PANEL_CONTENT_HIDE_DURATION,
-  PANEL_CONTENT_OVERLAP,
-  PANEL_EXPAND_DURATION,
-  PANEL_EXPAND_EASE
-} from '@/config/animation'
 import { useChatAutoOpen } from '@/hooks/useChatAutoOpen'
 import { useChatFooterOffset } from '@/hooks/useChatFooterOffset'
 import { useVisualViewportOffset } from '@/hooks/useVisualViewportOffset'
+import { createPanelClosing, createPanelOpening, type PanelMorphParams } from '@/lib/chat.panel'
 import { CHAT_OPEN_EVENT } from '@/lib/chatEvents'
 import { reachGoal } from '@/lib/metrika'
-import { getButtonInset, getOpenInset, type MorphInset, toClipPath } from '@/lib/morphPanel'
+import { getButtonInset, type MorphInset, toClipPath } from '@/lib/morphPanel'
+import { playSound } from '@/lib/sound.player'
 
 gsap.registerPlugin(useGSAP)
 
 const WINDOW_TARGET = target(() => window)
-
-const ARROW_SELECTOR = '[data-chat-arrow]'
-const MINUS_SELECTOR = '[data-chat-minus]'
-// The button's label (RollingLabel) rises from under its line as the button comes back
-const LABEL_SELECTOR = '[data-rolling-label]'
-const LABEL_RISE_DURATION = 0.7
-const LABEL_RISE_EASE = 'power3.out'
 
 export interface UseChatParams {
   onContentShow: () => void
@@ -46,6 +33,7 @@ export const useChat = ({ onContentShow, onClosed }: UseChatParams) => {
 
   const rootRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const sideControlRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLElement>(null)
   const clipRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -71,6 +59,21 @@ export const useChat = ({ onContentShow, onClosed }: UseChatParams) => {
     closeButton.style.transform = `translate(${-inset.right}px, ${inset.top}px)`
   })
 
+  const getMorphParams = (): PanelMorphParams | null => {
+    const panel = panelRef.current
+    const button = buttonRef.current
+    if (!panel || !button) return null
+
+    return {
+      panel,
+      button,
+      content: contentRef.current,
+      sideControl: sideControlRef.current,
+      inset: insetRef.current,
+      renderInset
+    }
+  }
+
   const playTimeline = contextSafe((timeline: gsap.core.Timeline) => {
     timelineRef.current?.kill()
     timelineRef.current = timeline
@@ -78,52 +81,24 @@ export const useChat = ({ onContentShow, onClosed }: UseChatParams) => {
   })
 
   const openPanel = contextSafe((goal: MetrikaGoal) => {
-    const panel = panelRef.current
-    const button = buttonRef.current
-    if (!panel || !button) return
+    const morph = getMorphParams()
+    if (!morph) return
 
     // Stop the previous transition without reverting its current position.
     context.kill()
     panelDisclosure.open()
     hasOpenedRef.current = true
     reachGoal(goal)
+    playSound('transitionUp')
 
     // The panel size may have changed while it was hidden
-    if (gsap.getProperty(panel, 'visibility') === 'hidden') {
-      Object.assign(insetRef.current, getButtonInset(panel, button))
+    if (gsap.getProperty(morph.panel, 'visibility') === 'hidden') {
+      Object.assign(insetRef.current, getButtonInset(morph.panel, morph.button))
       renderInset()
     }
 
-    playTimeline(
-      gsap
-        .timeline()
-        .set(button, { autoAlpha: 0 })
-        .set(panel, { autoAlpha: 1 })
-        .to(insetRef.current, {
-          ...getOpenInset(panel),
-          duration: PANEL_EXPAND_DURATION,
-          ease: PANEL_EXPAND_EASE,
-          onUpdate: renderInset
-        })
-        // The button's arrow tile turns into the panel's close tile over the whole expansion
-        .to(
-          ARROW_SELECTOR,
-          { opacity: 0, duration: PANEL_EXPAND_DURATION, ease: PANEL_EXPAND_EASE },
-          0
-        )
-        .to(
-          MINUS_SELECTOR,
-          { opacity: 1, duration: PANEL_EXPAND_DURATION, ease: PANEL_EXPAND_EASE },
-          0
-        )
-        .to(
-          contentRef.current,
-          { autoAlpha: 1, duration: PANEL_CONTENT_DURATION, ease: PANEL_CONTENT_EASE },
-          `-=${PANEL_CONTENT_OVERLAP}`
-        )
-        // The form owns its own animations; keep its context separate from the panel's.
-        .add(() => context.ignore(onContentShow), '<')
-    )
+    // The form owns its own animations; keep its context separate from the panel's.
+    playTimeline(createPanelOpening(morph, () => context.ignore(onContentShow)))
   })
 
   const open = () => openPanel(CHAT_GOALS.open)
@@ -136,51 +111,18 @@ export const useChat = ({ onContentShow, onClosed }: UseChatParams) => {
   })
 
   const close = contextSafe(() => {
-    const panel = panelRef.current
-    const button = buttonRef.current
-    if (!panel || !button) return
+    const morph = getMorphParams()
+    if (!morph) return
 
     context.kill()
     panelDisclosure.close()
+    playSound('transitionDown')
 
     playTimeline(
-      gsap
-        .timeline({
-          onComplete: () => {
-            button.focus()
-            context.ignore(onClosed)
-          }
-        })
-        .to(contentRef.current, { autoAlpha: 0, duration: PANEL_CONTENT_HIDE_DURATION })
-        .to(insetRef.current, {
-          ...getButtonInset(panel, button),
-          duration: PANEL_EXPAND_DURATION,
-          ease: PANEL_EXPAND_EASE,
-          onUpdate: renderInset
-        })
-        .to(
-          MINUS_SELECTOR,
-          { opacity: 0, duration: PANEL_EXPAND_DURATION, ease: PANEL_EXPAND_EASE },
-          '<'
-        )
-        .to(
-          ARROW_SELECTOR,
-          { opacity: 1, duration: PANEL_EXPAND_DURATION, ease: PANEL_EXPAND_EASE },
-          '<'
-        )
-        .set(panel, { autoAlpha: 0 })
-        .set(button, { autoAlpha: 1 })
-        .fromTo(
-          button.querySelector(LABEL_SELECTOR),
-          { yPercent: 110 },
-          {
-            yPercent: 0,
-            duration: LABEL_RISE_DURATION,
-            ease: LABEL_RISE_EASE,
-            // GSAP leaves translate: none inline, which would switch off the CSS hover roll for good
-            clearProps: 'transform,translate'
-          }
-        )
+      createPanelClosing(morph, () => {
+        morph.button.focus()
+        context.ignore(onClosed)
+      })
     )
   })
 
@@ -197,7 +139,7 @@ export const useChat = ({ onContentShow, onClosed }: UseChatParams) => {
 
   return {
     state: { isOpen: panelDisclosure.opened },
-    refs: { rootRef, buttonRef, panelRef, clipRef, closeButtonRef, contentRef },
+    refs: { rootRef, buttonRef, sideControlRef, panelRef, clipRef, closeButtonRef, contentRef },
     functions: { open, close }
   }
 }

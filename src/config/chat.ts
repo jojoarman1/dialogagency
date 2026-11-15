@@ -127,3 +127,17 @@ export const getChatMaxLength = (step: ChatStep) => {
 }
 
 export const getChatThanks = (name: string) => `Спасибо, ${name}! Скоро свяжемся!`
+
+export const CHAT_SEND_STATUSES = ['idle', 'sending', 'error'] as const
+export type ChatSendStatus = (typeof CHAT_SEND_STATUSES)[number]
+
+export const CHAT_SEND_LABELS: Record<ChatSendStatus, string> = {
+  idle: 'Отправить',
+  sending: 'Отправляем заявку…',
+  error: 'Не получилось, отправить ещё раз'
+}
+
+export const getChatSendStatus = (isSending: boolean, isSendError: boolean): ChatSendStatus => {
+  if (isSending) return 'sending'
+  return isSendError ? 'error' : 'idle'
+}

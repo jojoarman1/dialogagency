@@ -10,6 +10,8 @@ import { useChatForm } from '@/hooks/useChatForm'
 
 import { ChatConsent } from './chat/ChatConsent'
 import { ChatConversation } from './chat/ChatConversation'
+import { ChatSendButton } from './chat/ChatSendButton'
+import { SoundToggle } from './SoundToggle'
 import { TileButton } from './TileButton'
 
 const PANEL_ID = 'chat-panel'
@@ -23,19 +25,29 @@ export const Chat = () => {
     onContentShow: chatForm.functions.revealStep,
     onClosed: chatForm.functions.onClosed
   })
+  const isSendSpread = chatForm.state.isSending || chatForm.state.isSendError
 
   return (
     <div ref={chat.refs.rootRef} className='font-sans'>
-      <TileButton
-        ref={chat.refs.buttonRef}
-        label='Начать диалог'
-        icon={<ArrowUpIcon className='size-[calc(18*var(--text-unit))]' />}
-        aria-controls={PANEL_ID}
-        aria-expanded={chat.state.isOpen}
-        onClick={chat.functions.open}
-        variant='difference'
-        className='fixed bottom-[calc(24*var(--text-unit)+var(--chat-footer-offset,0px))] left-[calc(24*var(--text-unit))] z-40'
-      />
+      {/* The blend goes on this fixed wrapper: it is the stacking context, so blending only the
+          buttons inside it would mix them with its empty background */}
+      <div className='fixed bottom-[calc(24*var(--text-unit)+var(--chat-footer-offset,0px))] left-[calc(24*var(--text-unit))] z-40 flex gap-[calc(6*var(--text-unit))] mix-blend-difference'>
+        <TileButton
+          ref={chat.refs.buttonRef}
+          label='Начать диалог'
+          icon={<ArrowUpIcon className='size-[calc(18*var(--text-unit))]' />}
+          aria-controls={PANEL_ID}
+          aria-expanded={chat.state.isOpen}
+          onClick={chat.functions.open}
+          data-own-sound
+          variant='difference'
+        />
+        <SoundToggle
+          ref={chat.refs.sideControlRef}
+          variant='difference'
+          className='max-lg:hidden'
+        />
+      </div>
 
       {/* The shadow sits outside the element that gets clipped, or the clip would cut it off. The
           radius here only sets the clip's open rounding: the inner layer has none, so its corners
@@ -56,6 +68,7 @@ export const Chat = () => {
             type='button'
             aria-label='Свернуть чат'
             onClick={chat.functions.close}
+            data-own-sound
             className={clsx(
               ICON_TILE_CLASS_NAME,
               'absolute top-[calc(4.5*var(--text-unit))] right-[calc(4.5*var(--text-unit))] z-10 cursor-pointer focus-visible:outline-2 focus-visible:outline-background'
@@ -83,32 +96,31 @@ export const Chat = () => {
 
               {!chatForm.state.step && <ChatConsent chatForm={chatForm} />}
 
-              {chatForm.state.isSendError && (
-                <p
-                  role='alert'
-                  className='px-[calc(12*var(--text-unit))] text-[14px] text-background/70'
-                >
-                  Не получилось отправить. Попробуйте ещё раз или напишите нам на почту
-                </p>
-              )}
-
-              <div className='flex items-end justify-between px-[calc(12*var(--text-unit))] py-[20px]'>
+              <div
+                className={clsx(
+                  'flex items-end justify-between px-[calc(12*var(--text-unit))] pt-[20px] pb-[calc(12*var(--text-unit))] transition-[gap]',
+                  isSendSpread ? 'gap-0' : 'gap-[calc(16*var(--text-unit))]'
+                )}
+              >
+                {/* Folds away while the button spreads over the row (sending, failed) */}
                 <a
                   href={`mailto:${SITE_CONFIG.email}`}
-                  className='text-[14px] text-background/50 underline underline-offset-2'
+                  className={clsx(
+                    'overflow-hidden whitespace-nowrap text-[14px] leading-snug text-background/50 underline underline-offset-2 transition-[max-width,opacity]',
+                    isSendSpread ? 'max-w-0 opacity-0' : 'max-w-[300px]'
+                  )}
                 >
                   <span aria-hidden='true'>↳ </span>
                   {SITE_CONFIG.email}
                 </a>
-                <button
-                  ref={chatForm.refs.sendRef}
-                  type='button'
-                  disabled={!chatForm.state.canSend}
-                  onClick={() => chatForm.functions.send(chat.functions.close)}
-                  className='cursor-pointer rounded-[calc(2.4*var(--text-unit))] bg-background px-[calc(8*var(--text-unit))] py-[calc(6.5*var(--text-unit))] text-[calc(20*var(--text-unit))] leading-[calc(20*var(--text-unit))] tracking-[calc(-0.2*var(--text-unit))] text-foreground transition-opacity disabled:cursor-default disabled:opacity-40'
-                >
-                  {chatForm.state.isSending ? 'Отправляем…' : 'Отправить'}
-                </button>
+                {/* The button shows the failure; screen readers also get the email to write to */}
+                {chatForm.state.isSendError && (
+                  <p role='alert' className='sr-only'>
+                    Не получилось отправить. Попробуйте ещё раз или напишите нам на{' '}
+                    {SITE_CONFIG.email}
+                  </p>
+                )}
+                <ChatSendButton chatForm={chatForm} onThanksRead={chat.functions.close} />
               </div>
             </div>
 

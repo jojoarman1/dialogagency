@@ -1,18 +1,6 @@
-// A service's picture is a lens collage: a background and an optional cut-out, a transparent PNG
-// laid over it (files in public/services/<id>/)
-export interface ServiceArt {
-  background: string
-  foreground?: string
-  // A plain sheet covers the whole column (stretched: the paper's proportions differ from the
-  // column's by ~2%, which doesn't show)
-  isSheet?: boolean
-}
-
-export interface Service {
-  id: string
-  title: string
-  art: ServiceArt
-}
+import { MEETING_SPRITES } from './meeting.sprites'
+import type { Service, ServiceArt } from './services.types'
+import { WEBSITE_SPRITES } from './website.sprites'
 
 const PAPER_SHEET: ServiceArt = { background: '/services/paper.webp', isSheet: true }
 
@@ -22,12 +10,32 @@ export const SERVICES = [
     title: 'Стратегия бренда',
     art: {
       background: '/services/brand-strategy/background.webp',
-      foreground: '/services/brand-strategy/foreground.webp'
+      // Bigger than the paper and a little lower, over its edges; rises from below its place
+      sprites: [
+        {
+          src: '/services/brand-strategy/foreground.webp',
+          x: -0.07,
+          y: -0.12,
+          width: 1.14,
+          from: 'bottom',
+          depth: 1,
+          delay: 0,
+          travel: 1
+        }
+      ]
     }
   },
-  { id: 'growth-strategy', title: 'Стратегия развития', art: PAPER_SHEET },
+  {
+    id: 'growth-strategy',
+    title: 'Стратегия развития',
+    art: { background: '/services/growth-strategy/table.webp', sprites: MEETING_SPRITES }
+  },
   { id: 'identity', title: 'Айдентика', art: PAPER_SHEET },
-  { id: 'web-design', title: 'Дизайн сайта', art: PAPER_SHEET },
+  {
+    id: 'web-design',
+    title: 'Дизайн сайта',
+    art: { background: '/services/web-design/page.webp', sprites: WEBSITE_SPRITES }
+  },
   { id: 'web-development', title: 'Разработка сайта', art: PAPER_SHEET }
 ] as const satisfies readonly Service[]
 

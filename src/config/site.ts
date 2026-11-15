@@ -3,7 +3,7 @@ const TAGLINE = 'Студия веб-разработки и дизайна'
 export const SITE_CONFIG = {
   // TODO: replace with the real agency name, email, title and description
   name: 'dialog',
-  email: 'hello@bydialog.ru',
+  email: 'muhametdinov.work@gmail.com',
   tagline: TAGLINE,
   // The page's h1, top-left in the hero
   slogan: 'Разрабатываем сайты и цифровые продукты для бизнеса',

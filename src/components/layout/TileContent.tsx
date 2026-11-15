@@ -25,7 +25,7 @@ export const TileContent = ({ label, icon, variant, size, tileClassName }: TileC
     <span
       aria-hidden='true'
       className={clsx(
-        'flex items-center justify-center overflow-hidden',
+        'flex items-center justify-center overflow-hidden transition-colors duration-600',
         TILE_SIZE_CLASS_NAMES[size].tile,
         TILE_VARIANT_CLASS_NAMES[variant].tile,
         tileClassName

@@ -1,18 +1,17 @@
 // How far the collage canvas reaches past its column on every side (fractions of the column's
-// width / height): room for the cut-out sticking out, the paper's spring overshoot and the parallax
-export const LENS_OVERFLOW = { x: 0.16, y: 0.12 }
+// width / height): room for the cut-outs sticking out, the paper's spring overshoot and the parallax
+export const LENS_OVERFLOW = { x: 0.23, y: 0.18 }
 
-// The paper is inset in the column; the cut-out is bigger and sits a little lower, over its edges
+// The paper is inset in the column
 export const LENS_BACKGROUND_INSET = 0.04
-export const LENS_FOREGROUND_SCALE = 1.14
-export const LENS_FOREGROUND_DROP = 0.02
 
 // The column is 469 of the 1920 artboard; for the plain <img> fallback without WebGL
 export const LENS_IMAGE_SIZES = '25vw'
+export const LENS_SPRITE_IMAGE_SIZES = '10vw'
 
-// How far each layer drifts with the pointer, in canvas widths at the screen's edge: the cut-out
-// further than the paper, so it reads as in front of it
-export const LENS_PARALLAX = { background: 0.012, foreground: 0.035 }
+// How far each layer drifts with the pointer, in canvas widths at the screen's edge: the cut-outs
+// further than the paper (times their own depth), so they read as in front of it
+export const LENS_PARALLAX = { background: 0.012, sprite: 0.035 }
 // How quickly the drift catches up with the pointer (damp lambda, per second)
 export const LENS_PARALLAX_DAMPING = 5
 
@@ -20,8 +19,10 @@ export const LENS_PARALLAX_DAMPING = 5
 // while it comes in
 export const LENS_PAPER_BULGE = { rest: 0, entering: 1.4 }
 
-// The collage coming in: the paper grows smoothly out of its own middle, then the cut-out rises
-// from below
+export const LENS_SPRITE_SIDES = ['left', 'right', 'top', 'bottom'] as const
+
+// The collage coming in: the paper grows smoothly out of its own middle, then each cut-out comes
+// in from its side after its own delay
 export const LENS_ENTRANCE = {
   paperDuration: 1.4,
   paperEase: 'expo.out',
@@ -30,4 +31,20 @@ export const LENS_ENTRANCE = {
   cutoutDelay: 0.25
 }
 
-export const LENS_EXIT = { duration: 0.55, ease: 'power3.in' }
+// A cut-out on its way in travels this share of its own size (unless it sets its own), grows
+// from `scale` and is fully opaque after `fade` of the way, so none of it lingers once it's out
+export const LENS_SPRITE_ENTRANCE = { travel: 0.5, scale: 0.92, fade: 0.4 }
+
+// The cut-outs leave in reverse order, their delays shortened by staggerScale to fit the exit
+// Interactive cut-outs: hovered ones lift a little, pressed buttons squeeze, and a dragged one
+// springs back to its place when let go. A press that moves further than dragThreshold px drags
+export const LENS_INTERACTION = {
+  lift: 0.03,
+  press: 0.08,
+  dragThreshold: 4,
+  hover: { duration: 0.3, ease: 'power2.out' },
+  pressIn: { duration: 0.1, ease: 'power2.out' },
+  release: { duration: 0.9, ease: 'elastic.out(1, 0.45)' }
+}
+
+export const LENS_EXIT = { duration: 0.55, ease: 'power3.in', staggerScale: 0.4 }

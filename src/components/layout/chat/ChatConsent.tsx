@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Checkbox } from '@/components/ui/Checkbox'
 import { LEGAL_LINKS } from '@/config/legal'
 import type { useChatForm } from '@/hooks/useChatForm'
 
@@ -12,11 +13,10 @@ interface ChatConsentProps {
 // 152-FZ: an unticked box the visitor ticks themselves; "Отправить" stays off until then
 export const ChatConsent = ({ chatForm }: ChatConsentProps) => (
   <label className='flex cursor-pointer items-start gap-[calc(8*var(--text-unit))] px-[calc(12*var(--text-unit))] text-[14px] leading-snug text-background/70'>
-    <input
-      type='checkbox'
+    <Checkbox
       checked={chatForm.state.isConsentGiven}
       onChange={() => chatForm.functions.toggleConsent()}
-      className='mt-[calc(2*var(--text-unit))] size-[calc(16*var(--text-unit))] shrink-0 cursor-pointer accent-background'
+      className='mt-[2px] size-[16px] text-background'
     />
     <span>
       Даю{' '}

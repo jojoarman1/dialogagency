@@ -7,7 +7,7 @@ import { COVER_ASPECT_RATIO, type Project, REEL_WIDTH_SHARE } from '@/config/pro
 import { getReelDropPercent } from '@/lib/projectReel'
 
 // The cover's share of the viewport: full width on phones, 875 of the 1920 artboard otherwise
-const COVER_SIZES = '(width < 1024px) 100vw, 48vw'
+const COVER_SIZES = '(width < 1024px) 100vw, 52vw'
 
 // The reel box's inline style, with the drop distance as a CSS variable for .project-reel
 type ReelStyle = CSSProperties & { '--reel-drop': string }

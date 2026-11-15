@@ -9,7 +9,7 @@ export const LEGAL_OPERATOR = {
   name: 'Мухаметдинов Артём Ильшатович',
   status: 'плательщик налога на профессиональный доход (самозанятый)',
   inn: '740414283580',
-  email: 'jourjoarmani@gmail.com'
+  email: 'muhametdinov.work@gmail.com'
 }
 
 export const LEGAL_UPDATED_AT = '28.10.2026'

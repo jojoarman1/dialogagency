@@ -8,11 +8,13 @@ import { MenuIcon } from '@/components/icon/MenuIcon'
 import { SITE_CONFIG } from '@/config/site'
 import { useHashScrollOnLoad } from '@/hooks/useHashScrollOnLoad'
 import { useMenu } from '@/hooks/useMenu'
+import { useSoundEffects } from '@/hooks/useSoundEffects'
 import { handleSectionLinkClick } from '@/lib/scrollToSection'
 import { useIsHeroTitleVisible } from '@/stores/hero'
 
 import { HeaderNav } from './HeaderNav'
 import { MENU_PANEL_ID, MenuPanel } from './menu/MenuPanel'
+import { SoundToggle } from './SoundToggle'
 import { TileButton } from './TileButton'
 
 const BAR_CLASS_NAME =
@@ -21,6 +23,7 @@ const BAR_CLASS_NAME =
 export const Header = () => {
   const menu = useMenu()
   useHashScrollOnLoad()
+  useSoundEffects()
   const isHome = usePathname() === '/'
   const isHeroTitleVisible = useIsHeroTitleVisible()
   // On home the big centred word is the logo until it scrolls away
@@ -46,7 +49,8 @@ export const Header = () => {
       </header>
 
       {/* Outside the blended bar, so the dark button keeps its own colours */}
-      <div className={clsx(BAR_CLASS_NAME, 'right-0 lg:hidden')}>
+      <div className={clsx(BAR_CLASS_NAME, 'right-0 gap-[calc(6*var(--text-unit))] lg:hidden')}>
+        <SoundToggle variant='dark' />
         <TileButton
           ref={menu.refs.buttonRef}
           label='Меню'

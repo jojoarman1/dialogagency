@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import type { Service } from '@/config/services'
+import type { Service } from '@/config/services.types'
 
 import { LensCollage } from './LensCollage'
 

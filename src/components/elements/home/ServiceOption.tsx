@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import type { Service } from '@/config/services'
+import type { Service } from '@/config/services.types'
 
 interface ServiceOptionProps {
   service: Service
