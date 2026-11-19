@@ -5,7 +5,11 @@ import { notFound } from 'next/navigation'
 import { CookieConsent } from '@/components/layout/CookieConsent'
 import { DictionaryProvider } from '@/components/layout/DictionaryProvider'
 import { GrainOverlay } from '@/components/layout/GrainOverlay'
-import { LOCALES, OPEN_GRAPH_LOCALES } from '@/config/locale.constants'
+import {
+  LOCALES,
+  type Locale,
+  OPEN_GRAPH_LOCALES
+} from '@/config/locale.constants'
 import { SITE_CONFIG } from '@/config/site'
 import { getDictionary, getRequestLocale } from '@/lib/dictionary.service'
 import { hasLocale } from '@/lib/locale.utils'
@@ -20,20 +24,27 @@ const geistSans = Geist({
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
-  // Only the "2026" caption and the 404 label use it, in the regular weight
   weight: '400',
   subsets: ['latin', 'cyrillic']
 })
 
-// A static file, not opengraph-image.png: that file convention can't take a translated alt
-const OPEN_GRAPH_IMAGE = { url: '/og.png', width: 1200, height: 630 }
+// Static files, not opengraph-image.png: that file convention can't take a translated alt
+const OPEN_GRAPH_IMAGE_URLS: Record<Locale, string> = {
+  ru: '/og.png',
+  en: '/og-en.png'
+}
+const OPEN_GRAPH_IMAGE_SIZE = { width: 1200, height: 630 }
 
 export const generateStaticParams = () => LOCALES.map(lang => ({ lang }))
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getRequestLocale()
   const { meta } = getDictionary(locale)
-  const image = { ...OPEN_GRAPH_IMAGE, alt: meta.ogAlt }
+  const image = {
+    url: OPEN_GRAPH_IMAGE_URLS[locale],
+    ...OPEN_GRAPH_IMAGE_SIZE,
+    alt: meta.ogAlt
+  }
 
   return {
     metadataBase: new URL(SITE_CONFIG.url),
@@ -78,7 +89,10 @@ export const viewport: Viewport = {
   colorScheme: 'light'
 }
 
-export default async function RootLayout({ children, params }: LayoutProps<'/[lang]'>) {
+export default async function RootLayout({
+  children,
+  params
+}: LayoutProps<'/[lang]'>) {
   const { lang } = await params
   // proxy.ts puts a language in front of every path, so only a typed-in "/de" lands here
   if (!hasLocale(lang)) notFound()
@@ -88,8 +102,11 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       lang={lang}
       className={`${geistSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className='min-h-full flex flex-col'>
-        <DictionaryProvider locale={lang} dictionary={getDictionary(lang)}>
+      <body className="min-h-full flex flex-col">
+        <DictionaryProvider
+          locale={lang}
+          dictionary={getDictionary(lang)}
+        >
           {children}
           <GrainOverlay />
           <CookieConsent />
