@@ -5,11 +5,7 @@ import { notFound } from 'next/navigation'
 import { CookieConsent } from '@/components/layout/CookieConsent'
 import { DictionaryProvider } from '@/components/layout/DictionaryProvider'
 import { GrainOverlay } from '@/components/layout/GrainOverlay'
-import {
-  LOCALES,
-  type Locale,
-  OPEN_GRAPH_LOCALES
-} from '@/config/locale.constants'
+import { LOCALES, type Locale, OPEN_GRAPH_LOCALES } from '@/config/locale.constants'
 import { SITE_CONFIG } from '@/config/site'
 import { getDictionary, getRequestLocale } from '@/lib/dictionary.service'
 import { hasLocale } from '@/lib/locale.utils'
@@ -89,10 +85,7 @@ export const viewport: Viewport = {
   colorScheme: 'light'
 }
 
-export default async function RootLayout({
-  children,
-  params
-}: LayoutProps<'/[lang]'>) {
+export default async function RootLayout({ children, params }: LayoutProps<'/[lang]'>) {
   const { lang } = await params
   // proxy.ts puts a language in front of every path, so only a typed-in "/de" lands here
   if (!hasLocale(lang)) notFound()
@@ -102,11 +95,8 @@ export default async function RootLayout({
       lang={lang}
       className={`${geistSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <DictionaryProvider
-          locale={lang}
-          dictionary={getDictionary(lang)}
-        >
+      <body className='min-h-full flex flex-col'>
+        <DictionaryProvider locale={lang} dictionary={getDictionary(lang)}>
           {children}
           <GrainOverlay />
           <CookieConsent />
