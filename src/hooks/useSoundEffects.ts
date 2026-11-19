@@ -1,13 +1,14 @@
 import { target, useEventListener } from '@siberiacancode/reactuse'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { OWN_SOUND_SELECTOR } from '@/config/sound.constants'
-import { playSound, unlockSounds } from '@/lib/sound.player'
+import { playSound, prefetchSounds, unlockSounds } from '@/lib/sound.player'
 import { getIsSoundEnabled } from '@/stores/sound.store'
 
 const DOCUMENT_TARGET = target(() => document)
 const INTERACTIVE_SELECTOR = 'a, button, [role="button"], label'
 const DISABLED_SELECTOR = ':disabled, [aria-disabled="true"]'
+const SOUND_PREFETCH_FALLBACK_DELAY = 2000
 
 const getInteractive = (eventTarget: EventTarget | null) => {
   const interactive =
@@ -21,7 +22,18 @@ export const useSoundEffects = () => {
   const clickedRef = useRef<Element | null>(null)
   const clickedAtRef = useRef(0)
 
-  // Sound switched on in an earlier visit still needs a gesture before the browser plays it
+  // Downloaded while the page is idle, so switching sound on doesn't wait for 14 requests.
+  // Safari has no requestIdleCallback
+  useEffect(() => {
+    if (!('requestIdleCallback' in window)) {
+      const timeoutId = setTimeout(prefetchSounds, SOUND_PREFETCH_FALLBACK_DELAY)
+      return () => clearTimeout(timeoutId)
+    }
+    const idleId = requestIdleCallback(() => prefetchSounds())
+    return () => cancelIdleCallback(idleId)
+  }, [])
+
+  // Sound switched on earlier in this tab still needs a gesture before the browser plays it
   useEventListener(DOCUMENT_TARGET, 'pointerdown', () => {
     if (getIsSoundEnabled()) void unlockSounds()
   })
