@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import type { Ref } from 'react'
 
 import { SoundIcon } from '@/components/icon/SoundIcon'
+import { useDictionary } from '@/hooks/useDictionary'
 import { playSound, unlockSounds } from '@/lib/sound.player'
 import { setIsSoundEnabled, useIsSoundEnabled } from '@/stores/sound.store'
 
@@ -21,6 +22,7 @@ interface SoundToggleProps {
 
 export const SoundToggle = ({ variant, className, ref }: SoundToggleProps) => {
   const isSoundEnabled = useIsSoundEnabled()
+  const { dictionary } = useDictionary()
 
   const toggle = async () => {
     if (isSoundEnabled) {
@@ -36,7 +38,7 @@ export const SoundToggle = ({ variant, className, ref }: SoundToggleProps) => {
     <button
       ref={ref}
       type='button'
-      aria-label={isSoundEnabled ? 'Выключить звук' : 'Включить звук'}
+      aria-label={isSoundEnabled ? dictionary.sound.off : dictionary.sound.on}
       aria-pressed={isSoundEnabled}
       onClick={toggle}
       data-own-sound

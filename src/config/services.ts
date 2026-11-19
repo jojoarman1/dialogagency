@@ -3,10 +3,10 @@ import { MEETING_SPRITES } from './meeting.sprites'
 import type { Service } from './services.types'
 import { WEBSITE_SPRITES } from './website.sprites'
 
+// The titles are in the dictionaries, by id
 export const SERVICES = [
   {
     id: 'brand-strategy',
-    title: 'Стратегия бренда',
     art: {
       background: '/services/brand-strategy/background.webp',
       // Bigger than the paper and a little lower, over its edges; rises from below its place
@@ -26,23 +26,19 @@ export const SERVICES = [
   },
   {
     id: 'growth-strategy',
-    title: 'Стратегия развития',
     art: { background: '/services/growth-strategy/table.webp', sprites: MEETING_SPRITES }
   },
   // A sheet of well-known logos cut to the papers' 3:4, smearing after the mouse
   {
     id: 'identity',
-    title: 'Айдентика',
     art: { background: '/services/identity/logos.webp', hasFlow: true }
   },
   {
     id: 'web-design',
-    title: 'Дизайн сайта',
     art: { background: '/services/web-design/page.webp', sprites: WEBSITE_SPRITES }
   },
   {
     id: 'web-development',
-    title: 'Разработка сайта',
     art: { background: '/services/web-development/paper.webp', sprites: DEVELOPER_SPRITES }
   }
 ] as const satisfies readonly Service[]

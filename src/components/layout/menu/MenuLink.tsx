@@ -2,23 +2,23 @@
 
 import Link from 'next/link'
 
-import type { NavigationLink } from '@/config/navigation'
 import { handleSectionLinkClick } from '@/lib/scrollToSection'
 
 interface MenuLinkProps {
-  link: NavigationLink
+  href: string
+  label: string
   onClick: () => void
 }
 
-export const MenuLink = ({ link, onClick }: MenuLinkProps) => (
+export const MenuLink = ({ href, label, onClick }: MenuLinkProps) => (
   <Link
-    href={link.href}
+    href={href}
     onClick={event => {
       onClick()
-      handleSectionLinkClick(event, link.href)
+      handleSectionLinkClick(event, href)
     }}
     className='block py-[calc(10*var(--text-unit))] text-[calc(44*var(--text-unit))] leading-none font-bold tracking-[-0.03em]'
   >
-    {link.label}
+    {label}
   </Link>
 )

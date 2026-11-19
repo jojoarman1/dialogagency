@@ -1,9 +1,18 @@
 export const CTA_WORD_EFFECTS = ['rise', 'cascade', 'focus', 'drop', 'flip', 'slide'] as const
 export type CtaWordEffect = (typeof CTA_WORD_EFFECTS)[number]
 
+export const CTA_WORD_IDS = [
+  'start',
+  'create',
+  'impressions',
+  'which',
+  'surprise',
+  'people'
+] as const
+export type CtaWordId = (typeof CTA_WORD_IDS)[number]
+
 export interface CtaWord {
-  id: string
-  text: string
+  id: CtaWordId
   effect: CtaWordEffect
 }
 
@@ -14,29 +23,18 @@ export interface CtaLine {
   align: 'start' | 'indent' | 'end'
 }
 
-// Every word comes in its own way (useCtaReveal)
+// Every word comes in its own way (useCtaReveal); the words themselves are in the dictionaries
 export const CTA_LINES: CtaLine[] = [
-  { id: 'start', align: 'start', words: [{ id: 'start', text: 'Начнем', effect: 'rise' }] },
-  {
-    id: 'create',
-    align: 'start',
-    words: [{ id: 'create', text: 'создавать', effect: 'cascade' }]
-  },
-  {
-    id: 'impressions',
-    align: 'indent',
-    words: [{ id: 'impressions', text: 'впечатления', effect: 'focus' }]
-  },
+  { id: 'start', align: 'start', words: [{ id: 'start', effect: 'rise' }] },
+  { id: 'create', align: 'start', words: [{ id: 'create', effect: 'cascade' }] },
+  { id: 'impressions', align: 'indent', words: [{ id: 'impressions', effect: 'focus' }] },
   {
     id: 'which',
     align: 'start',
     words: [
-      { id: 'which', text: 'которые', effect: 'drop' },
-      { id: 'surprise', text: 'удивят', effect: 'flip' }
+      { id: 'which', effect: 'drop' },
+      { id: 'surprise', effect: 'flip' }
     ]
   },
-  { id: 'people', align: 'end', words: [{ id: 'people', text: 'людей', effect: 'slide' }] }
+  { id: 'people', align: 'end', words: [{ id: 'people', effect: 'slide' }] }
 ]
-
-export const CTA_QUOTE =
-  '«Мы - команда увлечённых делом. Внимательно относимся к каждому проекту, открыты к диалогу и создаём продукты, за качество которых можем отвечать.»'

@@ -1,14 +1,18 @@
 import type { MetadataRoute } from 'next'
 
+import { RU_DICTIONARY } from '@/config/dictionaries/ru.constants'
+import { DEFAULT_LOCALE } from '@/config/locale.constants'
 import { SITE_CONFIG } from '@/config/site'
+import { localizePath } from '@/lib/locale.utils'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE_CONFIG.name,
     short_name: SITE_CONFIG.name,
-    description: SITE_CONFIG.description,
-    lang: SITE_CONFIG.lang,
-    start_url: '/',
+    // One manifest for the installed app: it opens the main, Russian version
+    description: RU_DICTIONARY.meta.description,
+    lang: DEFAULT_LOCALE,
+    start_url: localizePath(DEFAULT_LOCALE, '/'),
     display: 'standalone',
     background_color: SITE_CONFIG.themeColor,
     theme_color: SITE_CONFIG.themeColor,

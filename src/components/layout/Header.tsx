@@ -6,9 +6,11 @@ import { usePathname } from 'next/navigation'
 
 import { MenuIcon } from '@/components/icon/MenuIcon'
 import { SITE_CONFIG } from '@/config/site'
+import { useDictionary } from '@/hooks/useDictionary'
 import { useHashScrollOnLoad } from '@/hooks/useHashScrollOnLoad'
 import { useMenu } from '@/hooks/useMenu'
 import { useSoundEffects } from '@/hooks/useSoundEffects'
+import { localizePath } from '@/lib/locale.utils'
 import { handleSectionLinkClick } from '@/lib/scrollToSection'
 import { useIsHeroTitleVisible } from '@/stores/hero'
 
@@ -24,7 +26,9 @@ export const Header = () => {
   const menu = useMenu()
   useHashScrollOnLoad()
   useSoundEffects()
-  const isHome = usePathname() === '/'
+  const { locale, dictionary } = useDictionary()
+  const homePath = localizePath(locale, '/')
+  const isHome = usePathname() === homePath
   const isHeroTitleVisible = useIsHeroTitleVisible()
   // On home the big centred word is the logo until it scrolls away
   const isLogoHidden = isHome && isHeroTitleVisible
@@ -36,8 +40,8 @@ export const Header = () => {
           the bar's empty background */}
       <header className={clsx(BAR_CLASS_NAME, 'inset-x-0 text-white mix-blend-difference')}>
         <Link
-          href='/'
-          onClick={event => handleSectionLinkClick(event, '/')}
+          href={homePath}
+          onClick={event => handleSectionLinkClick(event, homePath)}
           className={clsx(
             'text-[calc(26*var(--text-unit))] leading-none font-bold tracking-tighter transition-[opacity,visibility]',
             isLogoHidden ? 'invisible opacity-0' : 'pointer-events-auto'
@@ -53,7 +57,7 @@ export const Header = () => {
         <SoundToggle variant='dark' />
         <TileButton
           ref={menu.refs.buttonRef}
-          label='Меню'
+          label={dictionary.nav.menu}
           icon={
             <MenuIcon className='h-[calc(10*var(--text-unit))] w-[calc(15*var(--text-unit))]' />
           }

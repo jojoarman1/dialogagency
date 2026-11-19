@@ -7,10 +7,10 @@ const contact = { stepId: 'contact', values: ['test@example.com'] }
 const validLead = {
   answers: [
     { stepId: 'name', values: ['Test'] },
-    { stepId: 'subject', values: ['новый проект'] },
-    { stepId: 'project', values: ['сайт компании'] },
-    { stepId: 'projectNeeds', values: ['дизайн', 'разработка'] },
-    { stepId: 'projectDeadline', values: ['за 3 месяца'] },
+    { stepId: 'subject', values: ['newProject'] },
+    { stepId: 'project', values: ['companySite'] },
+    { stepId: 'projectNeeds', values: ['design', 'development'] },
+    { stepId: 'projectDeadline', values: ['threeMonths'] },
     contact
   ],
   consent: true
@@ -81,6 +81,17 @@ describe('leadSchema', () => {
 
     answers.forEach(answers => {
       assert.equal(leadSchema.safeParse({ answers, consent: true }).success, false)
+    })
+  })
+
+  it("Should reject an option's wording instead of its id, in any language", () => {
+    ;['сайт компании', 'a company website', 'design'].forEach(value => {
+      const result = leadSchema.safeParse({
+        answers: [{ stepId: 'project', values: [value] }, contact],
+        consent: true
+      })
+
+      assert.equal(result.success, false)
     })
   })
 

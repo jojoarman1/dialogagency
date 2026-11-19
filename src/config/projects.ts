@@ -3,8 +3,8 @@ export const COVER_ASPECT_RATIO = 905 / 660
 export const REEL_WIDTH_SHARE = 0.45
 
 export interface ProjectMetric {
+  // The number itself; its caption is in the dictionaries
   value: string
-  label: string
 }
 
 // The hover video: 1280px wide, 30 fps, no sound (ffmpeg -crf 26–30, +faststart), and its first
@@ -25,8 +25,6 @@ export interface ProjectLogo {
 
 export interface Project {
   slug: string
-  title: string
-  description: string
   url?: string
   metric?: ProjectMetric
   // In public/projects/<slug>/; 875×576 in the design, so ~1750px wide stays sharp on retina
@@ -36,14 +34,12 @@ export interface Project {
   reel: ProjectReel
 }
 
-export const PROJECTS: Project[] = [
+// Titles, descriptions and metric captions are in the dictionaries, by slug
+export const PROJECTS = [
   {
     slug: 'viceseason-undercover',
-    title: 'Viceseason Undercover',
-    description:
-      'Комплексная разработка нового сайта для VICESEASON UNDERCOVER - авангардного белорусского бренда уличной одежды. Создали полноценную e-commerce платформу с собственной серверной частью, административной панелью, CRM-системой, складским учётом и интеграцией онлайн-оплаты.',
     url: 'https://viceseason.com',
-    metric: { value: '42%', label: 'Увеличение кол-ва клиентов и продаж' },
+    metric: { value: '42%' },
     cover: '/projects/viceseason-undercover/cover.webp',
     logo: { src: '/projects/viceseason-undercover/logo.svg', width: 802, height: 802 },
     reel: {
@@ -54,9 +50,6 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'saliystudio',
-    title: 'Saliystudio',
-    description:
-      'Создание уникальной визуальной айдентики для личного бренда популярного видеоблогера Глеба Сайлия',
     url: 'https://saliyclothes.com',
     cover: '/projects/saliystudio/cover.webp',
     logo: { src: '/projects/saliystudio/logo.svg', width: 92, height: 38 },
@@ -68,10 +61,6 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'sushist',
-    title: 'Суши СТ',
-    // TODO: placeholder copy, replace with the real project description
-    description:
-      'Сайт доставки суши в Челябинске: каталог с категориями, акции на главной, корзина и онлайн-заказ',
     url: 'https://sushist74.ru',
     cover: '/projects/sushist/cover.webp',
     reel: {
@@ -80,4 +69,6 @@ export const PROJECTS: Project[] = [
       aspectRatio: 1280 / 696
     }
   }
-]
+] as const satisfies readonly Project[]
+
+export type ProjectSlug = (typeof PROJECTS)[number]['slug']

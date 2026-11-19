@@ -1,15 +1,13 @@
 import clsx from 'clsx'
 
-import type { Service } from '@/config/services.types'
-
 interface ServiceOptionProps {
-  service: Service
+  title: string
   isActive: boolean
   onSelect: () => void
 }
 
 // One service in the list: a button that shows its picture; the chosen one is white
-export const ServiceOption = ({ service, isActive, onSelect }: ServiceOptionProps) => (
+export const ServiceOption = ({ title, isActive, onSelect }: ServiceOptionProps) => (
   <li>
     <button
       type='button'
@@ -22,7 +20,7 @@ export const ServiceOption = ({ service, isActive, onSelect }: ServiceOptionProp
         isActive ? 'text-background' : 'text-background/40 hover:text-background/70'
       )}
     >
-      {service.title}
+      {title}
     </button>
   </li>
 )

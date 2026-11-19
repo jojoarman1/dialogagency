@@ -1,15 +1,14 @@
 import { z } from 'zod'
 
-import { CHAT_STEPS, getChatMaxLength, isChatContact } from '@/config/chat'
+import { CHAT_STEP_IDS, CHAT_STEPS, getChatMaxLength, isChatContact } from '@/config/chat'
 import { LEAD_LIMITS } from '@/config/lead'
 
 const leadAnswerSchema = z
   .object({
-    stepId: z.string(),
+    stepId: z.enum(CHAT_STEP_IDS),
     values: z.array(z.string().trim().min(1)).min(1).max(LEAD_LIMITS.values)
   })
   .refine(({ stepId, values }) => {
-    if (!Object.hasOwn(CHAT_STEPS, stepId)) return false
     const step = CHAT_STEPS[stepId]
     if (!step.options) {
       return (
@@ -19,10 +18,11 @@ const leadAnswerSchema = z
       )
     }
 
-    const optionValues = step.options.map(option => option.value)
+    // Option steps carry the options' ids, whatever the visitor's language
+    const optionIds: string[] = step.options.map(option => option.id)
     return (
       (step.isMultiselect || values.length === 1) &&
-      values.every(value => optionValues.includes(value))
+      values.every(value => optionIds.includes(value))
     )
   })
 

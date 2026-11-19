@@ -1,16 +1,20 @@
 import clsx from 'clsx'
 
-import type { ChatStep } from '@/config/chat'
+import type { ChatStep, ChatStepId } from '@/config/chat'
 import type { useChatForm } from '@/hooks/useChatForm'
+import { useDictionary } from '@/hooks/useDictionary'
 
 import { CHAT_HINT_CLASS_NAME, CHAT_NOTE_CLASS_NAME, CHAT_OPTION_CLASS_NAME } from './chat.styles'
 
 interface ChatCurrentStepProps {
+  stepId: ChatStepId
   step: ChatStep
   chatForm: ReturnType<typeof useChatForm>
 }
 
-export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
+export const ChatCurrentStep = ({ stepId, step, chatForm }: ChatCurrentStepProps) => {
+  const { dictionary } = useDictionary()
+  const texts = dictionary.chat
   const selectedCount = chatForm.state.selected.length
 
   if (step.options) {
@@ -18,16 +22,16 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
       <>
         {step.options.map(option => (
           <button
-            key={option.value}
+            key={option.id}
             type='button'
             data-chat-option
             aria-pressed={
-              step.isMultiselect ? chatForm.state.selected.includes(option.value) : undefined
+              step.isMultiselect ? chatForm.state.selected.includes(option.id) : undefined
             }
             onClick={() => chatForm.functions.selectOption(option)}
             className={CHAT_OPTION_CLASS_NAME}
           >
-            {option.value}
+            {texts.options[option.id]}
           </button>
         ))}
         {step.isMultiselect && selectedCount > 0 ? (
@@ -36,7 +40,7 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
             onClick={chatForm.functions.applySelection}
             className={CHAT_HINT_CLASS_NAME}
           >
-            [Применить]
+            {texts.apply}
           </button>
         ) : null}
         {step.isMultiselect ? (
@@ -45,7 +49,7 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
             data-chat-option
             className={clsx(CHAT_NOTE_CLASS_NAME, selectedCount > 0 && 'hidden')}
           >
-            [Можно несколько]
+            {texts.several}
           </span>
         ) : null}
       </>
@@ -56,7 +60,7 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
     <>
       <button
         type='button'
-        aria-label='Ответить'
+        aria-label={texts.reply}
         data-chat-control
         onClick={chatForm.functions.submitInput}
         className={clsx('invisible float-right ml-[6px]', CHAT_HINT_CLASS_NAME)}
@@ -68,7 +72,7 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
       <span
         ref={chatForm.refs.inputRef}
         role='textbox'
-        aria-label={step.label}
+        aria-label={texts.steps[stepId].label}
         aria-multiline={step.isMultiline}
         aria-invalid={chatForm.state.isContactError}
         contentEditable='plaintext-only'
@@ -84,7 +88,7 @@ export const ChatCurrentStep = ({ step, chatForm }: ChatCurrentStepProps) => {
       />
       {chatForm.state.isContactError ? (
         <span role='alert' className='block text-[14px] text-red-500'>
-          Укажите почту или ник в Telegram
+          {texts.contactError}
         </span>
       ) : null}
     </>

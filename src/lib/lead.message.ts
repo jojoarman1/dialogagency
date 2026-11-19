@@ -1,4 +1,5 @@
 import { CHAT_STEPS } from '@/config/chat'
+import { RU_DICTIONARY } from '@/config/dictionaries/ru.constants'
 import { LEAD_HASHTAG, LEAD_TIME_ZONE, LEAD_TITLE_FALLBACK, LEAD_TITLES } from '@/config/lead'
 import { SITE_CONFIG } from '@/config/site'
 
@@ -23,10 +24,15 @@ const formatContact = (contact: string) => {
   return `@${contact.replace(TELEGRAM_LINK_PATTERN, '').replace(/^@/, '')}`
 }
 
+// In Russian whatever the visitor's language: the channel is the studio's own. Option steps carry
+// the options' ids (checked by leadSchema)
+const OPTION_TEXTS: Record<string, string> = RU_DICTIONARY.chat.options
+
 const formatDetail = ({ stepId, values }: LeadAnswer) => {
   const step = CHAT_STEPS[stepId]
-  const label = `<b>${escapeHtml(step.label)}:</b>`
-  const value = escapeHtml(values.join(', '))
+  const texts = step.options ? values.map(value => OPTION_TEXTS[value] ?? value) : values
+  const label = `<b>${escapeHtml(RU_DICTIONARY.chat.steps[stepId].label)}:</b>`
+  const value = escapeHtml(texts.join(', '))
   return step.isMultiline ? `${label}\n<blockquote>${value}</blockquote>` : `${label} ${value}`
 }
 

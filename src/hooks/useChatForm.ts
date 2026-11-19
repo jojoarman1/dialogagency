@@ -68,7 +68,7 @@ export const useChatForm = () => {
 
     const timeline = createStepReveal({
       form: formRef.current,
-      text: step.text,
+      text: steps.state.stepText,
       isTyped: edit.isEditing,
       onComplete: () => {
         // A sudden on-screen keyboard or focus ring would get in the way on touch screens

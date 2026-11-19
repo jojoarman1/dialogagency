@@ -7,6 +7,7 @@ import { MinusIcon } from '@/components/icon/MinusIcon'
 import { SITE_CONFIG } from '@/config/site'
 import { useChat } from '@/hooks/useChat'
 import { useChatForm } from '@/hooks/useChatForm'
+import { useDictionary } from '@/hooks/useDictionary'
 
 import { ChatConsent } from './chat/ChatConsent'
 import { ChatConversation } from './chat/ChatConversation'
@@ -20,6 +21,7 @@ const ICON_TILE_CLASS_NAME =
   'flex size-[calc(24*var(--text-unit))] items-center justify-center rounded-[calc(2.4*var(--text-unit))] bg-background/30 text-background'
 
 export const Chat = () => {
+  const { dictionary } = useDictionary()
   const chatForm = useChatForm()
   const chat = useChat({
     onContentShow: chatForm.functions.revealStep,
@@ -34,7 +36,7 @@ export const Chat = () => {
       <div className='fixed bottom-[calc(24*var(--text-unit)+var(--chat-footer-offset,0px))] left-[calc(24*var(--text-unit))] z-40 flex gap-[calc(6*var(--text-unit))] mix-blend-difference'>
         <TileButton
           ref={chat.refs.buttonRef}
-          label='Начать диалог'
+          label={dictionary.chat.open}
           icon={<ArrowUpIcon className='size-[calc(18*var(--text-unit))]' />}
           aria-controls={PANEL_ID}
           aria-expanded={chat.state.isOpen}
@@ -55,7 +57,7 @@ export const Chat = () => {
       <section
         ref={chat.refs.panelRef}
         id={PANEL_ID}
-        aria-label='Чат'
+        aria-label={dictionary.chat.panel}
         className='invisible fixed top-[min(calc(106*var(--text-unit)+var(--chat-viewport-top,0px)),calc(100svh-324*var(--text-unit)-var(--chat-viewport-bottom,0px)-var(--chat-footer-offset,0px)))] bottom-[calc(24*var(--text-unit)+var(--chat-viewport-bottom,0px)+var(--chat-footer-offset,0px))] left-[calc(24*var(--text-unit))] z-50 w-[min(400px,calc(100vw-48*var(--text-unit)))] rounded-[calc(2.4*var(--text-unit))] drop-shadow-[0_0_calc(40*var(--text-unit))_rgb(0_0_0/0.4)] max-lg:drop-shadow-none max-lg:right-[calc(24*var(--text-unit))] max-lg:w-auto'
       >
         <div
@@ -66,7 +68,7 @@ export const Chat = () => {
           <button
             ref={chat.refs.closeButtonRef}
             type='button'
-            aria-label='Свернуть чат'
+            aria-label={dictionary.chat.collapse}
             onClick={chat.functions.close}
             data-own-sound
             className={clsx(
@@ -116,8 +118,7 @@ export const Chat = () => {
                 {/* The button shows the failure; screen readers also get the email to write to */}
                 {chatForm.state.isSendError && (
                   <p role='alert' className='sr-only'>
-                    Не получилось отправить. Попробуйте ещё раз или напишите нам на{' '}
-                    {SITE_CONFIG.email}
+                    {dictionary.chat.sendErrorAlert} {SITE_CONFIG.email}
                   </p>
                 )}
                 <ChatSendButton chatForm={chatForm} onThanksRead={chat.functions.close} />

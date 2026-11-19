@@ -1,6 +1,7 @@
 'use client'
 
 import { SERVICES } from '@/config/services'
+import { useDictionary } from '@/hooks/useDictionary'
 import { useServiceSwitch } from '@/hooks/useServiceSwitch'
 
 import { SectionLabel } from './SectionLabel'
@@ -11,6 +12,7 @@ const TITLE_ID = 'services-title'
 
 export const Services = () => {
   const serviceSwitch = useServiceSwitch()
+  const { dictionary } = useDictionary()
 
   return (
     <section
@@ -25,7 +27,7 @@ export const Services = () => {
         className='ml-141.75 text-[calc(20*var(--text-unit))] max-lg:ml-0'
         dotClassName='bg-background/60'
       >
-        Чем мы вам сможем помочь?
+        {dictionary.services.heading}
       </SectionLabel>
 
       <div className='mt-31.5 grid grid-cols-[469rem_1fr] gap-x-24.5 max-lg:mt-6 max-lg:grid-cols-[1fr_104rem] max-lg:gap-x-4'>
@@ -45,7 +47,7 @@ export const Services = () => {
           {SERVICES.map(service => (
             <ServiceOption
               key={service.id}
-              service={service}
+              title={dictionary.services.titles[service.id]}
               isActive={service.id === serviceSwitch.state.activeId}
               onSelect={() => serviceSwitch.functions.select(service.id)}
             />

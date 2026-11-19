@@ -19,10 +19,12 @@ const PHOTO_STYLE = {
 type ReelStyle = CSSProperties & { '--reel-drop': string }
 
 interface ProjectCoverProps {
-  project: Pick<Project, 'title' | 'cover' | 'logo' | 'reel'>
+  project: Pick<Project, 'cover' | 'logo' | 'reel'>
+  // The project's title in the page's language, for the photo's alt
+  title: string
 }
 
-export const ProjectCover = ({ project }: ProjectCoverProps) => {
+export const ProjectCover = ({ project, title }: ProjectCoverProps) => {
   const coverScroll = useCoverScroll()
   const reelStyle: ReelStyle = {
     width: `${REEL_WIDTH_SHARE * 100}%`,
@@ -38,13 +40,7 @@ export const ProjectCover = ({ project }: ProjectCoverProps) => {
     >
       {/* Taller than the cover by the overscan, centred; useCoverScroll moves it as the page scrolls */}
       <div data-cover-photo className='absolute inset-x-0' style={PHOTO_STYLE}>
-        <Image
-          src={project.cover}
-          alt={project.title}
-          fill
-          sizes={COVER_SIZES}
-          className='object-cover'
-        />
+        <Image src={project.cover} alt={title} fill sizes={COVER_SIZES} className='object-cover' />
       </div>
       {!!project.logo && (
         // Before the dimming and the reel, which cover it. Turned white and blended as difference, so a logo of any colour reads

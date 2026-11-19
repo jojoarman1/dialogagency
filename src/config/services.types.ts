@@ -14,6 +14,5 @@ export interface ServiceArt {
 
 export interface Service {
   id: string
-  title: string
   art: ServiceArt
 }

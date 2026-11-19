@@ -1,14 +1,58 @@
-import { SITE_CONFIG } from '@/config/site'
+export const CHAT_STEP_IDS = [
+  'name',
+  'subject',
+  'project',
+  'projectNeeds',
+  'projectDeadline',
+  'job',
+  'internship',
+  'country',
+  'about',
+  'something',
+  'contact'
+] as const
+export type ChatStepId = (typeof CHAT_STEP_IDS)[number]
+
+// Language-independent: the answers carry these ids, the dictionaries give their wording
+export const CHAT_OPTION_IDS = [
+  'newProject',
+  'job',
+  'internship',
+  'something',
+  'platform',
+  'mobileApp',
+  'companySite',
+  'onlineStore',
+  'marketingSite',
+  'portfolioSite',
+  'projectOther',
+  'branding',
+  'design',
+  'development',
+  'asap',
+  'threeMonths',
+  'sixMonths',
+  'yourTerms',
+  'deadlineOther',
+  'designer',
+  'frontendDeveloper',
+  'backendDeveloper',
+  'qaEngineer',
+  'projectManager',
+  'jobOther',
+  'frontend',
+  'backend',
+  'projectManagement'
+] as const
+export type ChatOptionId = (typeof CHAT_OPTION_IDS)[number]
 
 export interface ChatOption {
-  value: string
-  next?: string
+  id: ChatOptionId
+  next?: ChatStepId
 }
 
 export interface ChatStep {
-  text: string
-  label: string
-  next?: string
+  next?: ChatStepId
   isNewParagraph?: boolean
   isMultiline?: boolean
   isMultiselect?: boolean
@@ -17,93 +61,63 @@ export interface ChatStep {
   options?: ChatOption[]
 }
 
-export const CHAT_FIRST_STEP_ID = 'name'
+export const CHAT_FIRST_STEP_ID: ChatStepId = 'name'
 
-export const CHAT_STEPS: Record<string, ChatStep> = {
-  name: { text: 'Привет, меня зовут', label: 'Имя', next: 'subject' },
+const options = (...ids: ChatOptionId[]) => ids.map(id => ({ id }))
+
+export const CHAT_STEPS: Record<ChatStepId, ChatStep> = {
+  name: { next: 'subject' },
   subject: {
-    text: 'и мне хотелось бы обсудить с вами',
-    label: 'Тема',
     options: [
-      { value: 'новый проект', next: 'project' },
-      { value: 'работу у вас', next: 'job' },
-      { value: `стажировку в ${SITE_CONFIG.name}`, next: 'internship' },
-      { value: 'кое-что...', next: 'something' }
+      { id: 'newProject', next: 'project' },
+      { id: 'job', next: 'job' },
+      { id: 'internship', next: 'internship' },
+      { id: 'something', next: 'something' }
     ]
   },
   project: {
-    text: 'Проект – это',
-    label: 'Проект',
     next: 'projectNeeds',
     isNewParagraph: true,
-    options: [
-      { value: 'цифровая платформа / SaaS' },
-      { value: 'мобильное приложение' },
-      { value: 'сайт компании' },
-      { value: 'онлайн-магазин' },
-      { value: 'маркетинговый сайт' },
-      { value: 'сайт-портфолио' },
-      { value: 'другое' }
-    ]
+    options: options(
+      'platform',
+      'mobileApp',
+      'companySite',
+      'onlineStore',
+      'marketingSite',
+      'portfolioSite',
+      'projectOther'
+    )
   },
   projectNeeds: {
-    text: ', которому необходим',
-    label: 'Нужно',
     next: 'projectDeadline',
     isMultiselect: true,
-    options: [{ value: 'брендинг' }, { value: 'дизайн' }, { value: 'разработка' }]
+    options: options('branding', 'design', 'development')
   },
   projectDeadline: {
-    text: ', и он должен быть завершен',
-    label: 'Сроки',
     next: 'contact',
-    options: [
-      { value: 'как можно скорее' },
-      { value: 'за 3 месяца' },
-      { value: 'за 6 месяцев' },
-      { value: 'в предложенные исполнителем сроки' },
-      { value: 'другое' }
-    ]
+    options: options('asap', 'threeMonths', 'sixMonths', 'yourTerms', 'deadlineOther')
   },
   job: {
-    text: 'Я –',
-    label: 'Специальность',
     next: 'country',
     isNewParagraph: true,
-    options: [
-      { value: 'дизайнер' },
-      { value: 'frontend разработчик' },
-      { value: 'backend разработчик' },
-      { value: 'QA специалист' },
-      { value: 'менеджер проектов' },
-      { value: 'другое' }
-    ]
+    options: options(
+      'designer',
+      'frontendDeveloper',
+      'backendDeveloper',
+      'qaEngineer',
+      'projectManager',
+      'jobOther'
+    )
   },
   internship: {
-    text: 'Меня интересует',
-    label: 'Направление',
     next: 'country',
     isNewParagraph: true,
-    options: [{ value: 'frontend' }, { value: 'backend' }, { value: 'управление проектами' }]
+    options: options('frontend', 'backend', 'projectManagement')
   },
-  country: { text: 'Страна', label: 'Страна', next: 'about', isNewParagraph: true },
-  about: {
-    text: 'Немного обо мне:',
-    label: 'О себе',
-    next: 'contact',
-    isNewParagraph: true,
-    isMultiline: true
-  },
-  something: {
-    text: 'Если коротко, речь пойдет о',
-    label: 'Сообщение',
-    next: 'contact',
-    isNewParagraph: true,
-    isMultiline: true
-  },
+  country: { next: 'about', isNewParagraph: true },
+  about: { next: 'contact', isNewParagraph: true, isMultiline: true },
+  something: { next: 'contact', isNewParagraph: true, isMultiline: true },
   contact: {
-    text: 'Вы можете связаться со мной через почту или телеграм',
-    label: 'Почта или Telegram',
     isNewParagraph: true,
     // The email keyboard has @ for a Telegram username too
     inputMode: 'email',
@@ -126,16 +140,8 @@ export const getChatMaxLength = (step: ChatStep) => {
   return step.isMultiline ? CHAT_MAX_LENGTH.multiline : CHAT_MAX_LENGTH.line
 }
 
-export const getChatThanks = (name: string) => `Спасибо, ${name}! Скоро свяжемся!`
-
 export const CHAT_SEND_STATUSES = ['idle', 'sending', 'error'] as const
 export type ChatSendStatus = (typeof CHAT_SEND_STATUSES)[number]
-
-export const CHAT_SEND_LABELS: Record<ChatSendStatus, string> = {
-  idle: 'Отправить',
-  sending: 'Отправляем заявку…',
-  error: 'Не получилось, отправить ещё раз'
-}
 
 export const getChatSendStatus = (isSending: boolean, isSendError: boolean): ChatSendStatus => {
   if (isSending) return 'sending'

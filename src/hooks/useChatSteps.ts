@@ -2,15 +2,19 @@ import { useBoolean } from '@siberiacancode/reactuse'
 import { useRef, useState } from 'react'
 
 import { getChatAnswerGoal } from '@/config/analytics'
-import { CHAT_FIRST_STEP_ID, CHAT_STEPS, type ChatOption, getChatThanks } from '@/config/chat'
+import { CHAT_FIRST_STEP_ID, CHAT_STEPS, type ChatOption, type ChatStepId } from '@/config/chat'
+import { fillTemplate } from '@/lib/format'
 import type { LeadAnswer } from '@/lib/lead.schema'
 import { reachGoal } from '@/lib/metrika'
+
+import { useDictionary } from './useDictionary'
 
 // The conversation's answers and current step: answering moves on along the step's branch,
 // editing an earlier answer goes back to it and drops everything after it
 export const useChatSteps = () => {
+  const { dictionary } = useDictionary()
   const [answers, setAnswers] = useState<LeadAnswer[]>([])
-  const [stepId, setStepId] = useState<string | null>(CHAT_FIRST_STEP_ID)
+  const [stepId, setStepId] = useState<ChatStepId | null>(CHAT_FIRST_STEP_ID)
   const [selected, setSelected] = useState<string[]>([])
   const [isContactError, toggleContactError] = useBoolean()
   // Read by the step's reveal: an edited step shows its line at once, with the earlier answer
@@ -18,11 +22,12 @@ export const useChatSteps = () => {
 
   const step = stepId ? CHAT_STEPS[stepId] : null
 
-  const completeStep = (values: string[], next?: string) => {
+  const completeStep = (values: string[], next?: ChatStepId) => {
     if (!stepId || !step) return
 
     setAnswers(prevAnswers => [...prevAnswers, { stepId, values }])
-    // Only picked options go to Metrika: typed answers are names and contacts
+    // Only picked options go to Metrika, as their language-independent ids: typed answers are
+    // names and contacts
     reachGoal(getChatAnswerGoal(stepId), step.options ? { [stepId]: values.join(', ') } : undefined)
     setStepId(next ?? step.next ?? null)
     setSelected([])
@@ -31,14 +36,14 @@ export const useChatSteps = () => {
 
   const selectOption = (option: ChatOption) => {
     if (!step?.isMultiselect) {
-      completeStep([option.value], option.next)
+      completeStep([option.id], option.next)
       return
     }
 
     setSelected(prevSelected =>
-      prevSelected.includes(option.value)
-        ? prevSelected.filter(value => value !== option.value)
-        : [...prevSelected, option.value]
+      prevSelected.includes(option.id)
+        ? prevSelected.filter(value => value !== option.id)
+        : [...prevSelected, option.id]
     )
   }
 
@@ -73,7 +78,9 @@ export const useChatSteps = () => {
       stepId,
       selected,
       isContactError,
-      thanks: getChatThanks(answers[0]?.values[0] ?? '')
+      // The current step's line in the page's language, typed out by the reveal
+      stepText: stepId ? dictionary.chat.steps[stepId].text : '',
+      thanks: fillTemplate(dictionary.chat.thanks, { name: answers[0]?.values[0] ?? '' })
     },
     refs: { editRef },
     functions: {
