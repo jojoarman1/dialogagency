@@ -5,7 +5,8 @@ export const EN_DICTIONARY: Dictionary = {
     title: 'Websites, branding and e-commerce for clothing brands and creators — dialog',
     description:
       'dialog studio: custom websites, e-commerce platforms and brand identity for fashion brands, content creators and media. From strategy and design to scalable web platforms.',
-    slogan: 'We build websites, brand identities and digital platforms for fashion brands and creators',
+    slogan:
+      'We build websites, brand identities and digital platforms for fashion brands and creators',
     country: 'Russia',
     ogAlt: 'Websites, branding and e-commerce for clothing brands and creators — dialog'
   },
