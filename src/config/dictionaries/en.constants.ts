@@ -2,12 +2,12 @@ import type { Dictionary } from './dictionary.types'
 
 export const EN_DICTIONARY: Dictionary = {
   meta: {
-    title: 'Website development and web design - dialog studio',
+    title: 'Websites, branding and e-commerce for clothing brands and creators — dialog',
     description:
-      'dialog is a studio that builds websites, online stores and web services and designs brand identities for businesses, from strategy to launch and support.',
-    slogan: 'We build websites and digital products for business',
+      'dialog studio: custom websites, e-commerce platforms and brand identity for fashion brands, content creators and media. From strategy and design to scalable web platforms.',
+    slogan: 'We build websites, brand identities and digital platforms for fashion brands and creators',
     country: 'Russia',
-    ogAlt: 'Website development and web design - dialog studio'
+    ogAlt: 'Websites, branding and e-commerce for clothing brands and creators — dialog'
   },
   nav: {
     works: 'Work',

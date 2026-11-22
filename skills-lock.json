@@ -5,175 +5,204 @@
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/animate/SKILL.md",
-      "computedHash": "c622e29fa956aea703dc4e2b8726d9a017d438beb284a60bc3fdb2540c602102"
+      "computedHash": "c622e29fa956aea703dc4e2b8726d9a017d438beb284a60bc3fdb2540c602102",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "animation-performance": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/animation-performance/SKILL.md",
-      "computedHash": "1ff92f577fc2b7781ed622fd4eb5e514c252cf5cb95c3661743cd127ee01290a"
+      "computedHash": "1ff92f577fc2b7781ed622fd4eb5e514c252cf5cb95c3661743cd127ee01290a",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "animation-vocabulary": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/animation-vocabulary/SKILL.md",
-      "computedHash": "e1d19134dc63dfb09379f7b42557b63b6123becdd36d15bae991d0b6ca5b2110"
+      "computedHash": "e1d19134dc63dfb09379f7b42557b63b6123becdd36d15bae991d0b6ca5b2110",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "apple-design": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/apple-design/SKILL.md",
-      "computedHash": "163ba8b42c7d9d5ccb08674266d4727c9ec610b9d876c906b1f29ce5e0d933da"
+      "computedHash": "163ba8b42c7d9d5ccb08674266d4727c9ec610b9d876c906b1f29ce5e0d933da",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "ask-emil": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/ask-emil/SKILL.md",
-      "computedHash": "e7a92fe034a4151a27fbe2fad8813ffd18a9c98d6db8689930a1fdb3a7d536f5"
+      "computedHash": "e7a92fe034a4151a27fbe2fad8813ffd18a9c98d6db8689930a1fdb3a7d536f5",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "ask-sonner": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/ask-sonner/SKILL.md",
-      "computedHash": "9e82788679f5f71c9e0686b66200565c3f4e47037a06b9d1e94567ed42361bbc"
+      "computedHash": "9e82788679f5f71c9e0686b66200565c3f4e47037a06b9d1e94567ed42361bbc",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "break-ui": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/break-ui/SKILL.md",
-      "computedHash": "f089f3663e197fb4e106249df70e815a96e3236520a2e1c0919d1694816baca8"
+      "computedHash": "f089f3663e197fb4e106249df70e815a96e3236520a2e1c0919d1694816baca8",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "choreograph": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/choreograph/SKILL.md",
-      "computedHash": "a33a7cf57eacff502f833778eed62244fb5a890bb25124dacde73bcf8716218c"
+      "computedHash": "a33a7cf57eacff502f833778eed62244fb5a890bb25124dacde73bcf8716218c",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "emil-design-eng": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/emil-design-eng/SKILL.md",
-      "computedHash": "e1b377ccde1d32743d1d3f7d8626629deb8055c9114d180c184697928cc66cc6"
+      "computedHash": "e1b377ccde1d32743d1d3f7d8626629deb8055c9114d180c184697928cc66cc6",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "find-animation-opportunities": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/find-animation-opportunities/SKILL.md",
-      "computedHash": "9ec1c8c622b2c3caf9bda1712440e25dd4f9bc6da1207db4fa80b784aa319186"
+      "computedHash": "9ec1c8c622b2c3caf9bda1712440e25dd4f9bc6da1207db4fa80b784aa319186",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "gestures": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/gestures/SKILL.md",
-      "computedHash": "f17aa90d244bed37d09a608f9b8f58cd7a8dd6b9ff1a06fe2217f6f242c624f7"
+      "computedHash": "f17aa90d244bed37d09a608f9b8f58cd7a8dd6b9ff1a06fe2217f6f242c624f7",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "gsap-core": {
       "source": "greensock/gsap-skills",
       "sourceType": "github",
       "skillPath": "skills/gsap-core/SKILL.md",
-      "computedHash": "dfc8ba849fa8b81c8cc60964ee2a5fa8db4b2a2611801cf549a5b267b8284fa5"
+      "computedHash": "dfc8ba849fa8b81c8cc60964ee2a5fa8db4b2a2611801cf549a5b267b8284fa5",
+      "commit": "aed9cfd3277740755f6bfc1155c7aa645403b760"
     },
     "improve-animations": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/improve-animations/SKILL.md",
-      "computedHash": "5c33add82a79754bec0d7ee3376525e24e77b34575d5ae29d0c204f730356eab"
+      "computedHash": "5c33add82a79754bec0d7ee3376525e24e77b34575d5ae29d0c204f730356eab",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "integration-test-grill": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/integration-test-grill/SKILL.md",
-      "computedHash": "ad2a9ef8c5048827acfa982247328418342652761d7c381b70169bd8a19783c6"
+      "computedHash": "ad2a9ef8c5048827acfa982247328418342652761d7c381b70169bd8a19783c6",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "juniors-best-practice": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/juniors-best-practice/SKILL.md",
-      "computedHash": "337adc145be8af4075d68988ab45a78ccf7b9550c279e11f590028f97a51b93e"
+      "computedHash": "337adc145be8af4075d68988ab45a78ccf7b9550c279e11f590028f97a51b93e",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "learn-taste": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/learn-taste/SKILL.md",
-      "computedHash": "edaec540d02abdad48727b7d769574d0ee42e79304826c899a7aba90ef0197c1"
+      "computedHash": "edaec540d02abdad48727b7d769574d0ee42e79304826c899a7aba90ef0197c1",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "nginx-configuration": {
       "source": "aj-geddes/useful-ai-prompts",
       "sourceType": "github",
       "skillPath": "skills/nginx-configuration/SKILL.md",
-      "computedHash": "c5a02643f269809c834b7a94f1877a0b7a3a506e6c7f8549d55b5ca6e25adccd"
+      "computedHash": "c5a02643f269809c834b7a94f1877a0b7a3a506e6c7f8549d55b5ca6e25adccd",
+      "commit": "3f5182cfd739fc113f4af5244a1cf342ad7f7911"
     },
     "pick-ui-library": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/pick-ui-library/SKILL.md",
-      "computedHash": "3bc44e7faccb949583f4af6c8a15b5a50acc04a5e656f5168a96e5aa43e9f3cd"
+      "computedHash": "3bc44e7faccb949583f4af6c8a15b5a50acc04a5e656f5168a96e5aa43e9f3cd",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "prototype": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/prototype/SKILL.md",
-      "computedHash": "00fb13a91dbb746e2be91ae4dd67c4cc1f9907351f2d404a0cc6c849be1ebd95"
+      "computedHash": "00fb13a91dbb746e2be91ae4dd67c4cc1f9907351f2d404a0cc6c849be1ebd95",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "react-hooks-best-practices": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/react-hooks-best-practices/SKILL.md",
-      "computedHash": "7a0d6c213cb865976d25c8695915a81f1b28ed7092097ec170c5b14e879d6404"
+      "computedHash": "7a0d6c213cb865976d25c8695915a81f1b28ed7092097ec170c5b14e879d6404",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "reactuse": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/reactuse/SKILL.md",
-      "computedHash": "56782d4930e5ee6ceeb878a3182eba492a81e0d9fce8779b7563d41664ad0d98"
+      "computedHash": "56782d4930e5ee6ceeb878a3182eba492a81e0d9fce8779b7563d41664ad0d98",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "review-animations": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/review-animations/SKILL.md",
-      "computedHash": "50f1de2394b88bb3433eca1e30da6866a4e310963d872a66af20ca77fd77f07d"
+      "computedHash": "50f1de2394b88bb3433eca1e30da6866a4e310963d872a66af20ca77fd77f07d",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     },
     "seo-audit": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "skillPath": "skills/seo-audit/SKILL.md",
-      "computedHash": "37ac5512c83e37dea45ba4a1d8075623812df56db712b2461509d79b5599881e"
+      "computedHash": "d42f6f32bb62f8ebce93826ef33a7b663f2259b2891a0992f3d63dbd46f0f5ad",
+      "commit": "5b2b400eec1e7e1cec76245a715d0b0d4fd2a9c1"
     },
     "testcase-grill": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/testcase-grill/SKILL.md",
-      "computedHash": "4772ab0dd8ebaa00720266d638be3b183ba2401e156e5355a58d74788ec581e4"
+      "computedHash": "4772ab0dd8ebaa00720266d638be3b183ba2401e156e5355a58d74788ec581e4",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "testing-best-practices": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/testing-best-practices/SKILL.md",
-      "computedHash": "2ee97c0b7636c9fa09685e1115d4ca6d607cad3110b33bb296711970ac8db72e"
+      "computedHash": "2ee97c0b7636c9fa09685e1115d4ca6d607cad3110b33bb296711970ac8db72e",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "unit-test-grill": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/unit-test-grill/SKILL.md",
-      "computedHash": "52f51f987330bede768259c47e1c0d5a6e71cb8643fc9b2f38e00d6d4be854b9"
+      "computedHash": "52f51f987330bede768259c47e1c0d5a6e71cb8643fc9b2f38e00d6d4be854b9",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "vercel-react-best-practices": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
-      "computedHash": "70f8cb880f6fd77d340244cf9b055971f5a39aadb7a745704e9eed59474ac640"
+      "computedHash": "70f8cb880f6fd77d340244cf9b055971f5a39aadb7a745704e9eed59474ac640",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "web-design-guidelines": {
       "source": "siberiacancode/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/web-design-guidelines/SKILL.md",
-      "computedHash": "4df521911dae3170ee8676967deb37cc1f927c1f4ece660600127c489008253a"
+      "computedHash": "4df521911dae3170ee8676967deb37cc1f927c1f4ece660600127c489008253a",
+      "commit": "85092325768359da5eb51d532a06b3d4aa1bd945"
     },
     "write-swift": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/write-swift/SKILL.md",
-      "computedHash": "8e4baab8638930f60e44545f9cc2ec61b0ee18b1b9b18aafe29ebc0bdd6972b8"
+      "computedHash": "8e4baab8638930f60e44545f9cc2ec61b0ee18b1b9b18aafe29ebc0bdd6972b8",
+      "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
     }
   }
 }

@@ -18,11 +18,12 @@ export const getHomeJsonLd = (locale: Locale, dictionary: Dictionary) => {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization',
+        '@type': ['Organization', 'ProfessionalService'],
         '@id': ORGANIZATION_ID,
         name: SITE_CONFIG.name,
         url: SITE_CONFIG.url,
         logo: `${SITE_CONFIG.url}/web-app-manifest-512x512.png`,
+        image: `${SITE_CONFIG.url}/web-app-manifest-512x512.png`,
         description: dictionary.meta.description,
         email: SITE_CONFIG.email,
         sameAs: [TELEGRAM_LINK.href],
@@ -42,7 +43,8 @@ export const getHomeJsonLd = (locale: Locale, dictionary: Dictionary) => {
             '@type': 'Offer',
             itemOffered: { '@type': 'Service', name: dictionary.services.titles[service.id] }
           }))
-        }
+        },
+        priceRange: '$$'
       },
       {
         '@type': 'WebSite',

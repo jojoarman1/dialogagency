@@ -65,11 +65,12 @@ export const LocaleSwitch = ({ variant, className }: LocaleSwitchProps) => {
     setPicked(other)
   }
 
+  // Concentric corners: the outer radius is the thumb's plus the padding around it
   return (
     <nav
       aria-label={dictionary.nav.languages}
       className={clsx(
-        'relative grid auto-cols-fr grid-flow-col rounded-[calc(2.4*var(--text-unit))] p-[calc(4.5*var(--text-unit))] text-[calc(20*var(--text-unit))] leading-[calc(20*var(--text-unit))] tracking-[calc(-0.2*var(--text-unit))]',
+        'relative grid auto-cols-fr grid-flow-col rounded-[calc(6.9*var(--text-unit))] p-[calc(4.5*var(--text-unit))] text-[calc(20*var(--text-unit))] leading-[calc(20*var(--text-unit))] tracking-[calc(-0.2*var(--text-unit))]',
         classNames.root,
         className
       )}
